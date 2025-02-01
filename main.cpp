@@ -1,4 +1,5 @@
 #include <iostream>
+#include "booking/controller/Controller.h"
 #include "include/httplib.h"
 #include <nlohmann/json.hpp>
 
@@ -31,6 +32,8 @@ int main() {
 
             res.set_content(resp.dump(), "application/json");
             });
+
+    BookingController booking(svr);
 
     svr.listen("0.0.0.0", 3000);
 
