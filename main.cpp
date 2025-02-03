@@ -1,6 +1,8 @@
-#include <iostream>
 #include "booking/controller/Controller.h"
 #include "include/httplib.h"
+#include "utils/Utils.h"
+
+#include <iostream>
 #include <nlohmann/json.hpp>
 
 using namespace std;
@@ -10,32 +12,22 @@ using json = nlohmann::json;
 
 int main() {
 
-    Server svr;
+  Server svr;
 
-    svr.Get("/ping", [](const Request &req, Response &res) {
-            res.set_content("Pong", "text/plain");
-            cout << "Sended..." << endl;
-            });
+  svr.Get("/ping", [](const Request &req, Response &res) {
+    res.set_content("Pong", "text/plain");
+    cout << "Sended..." << endl;
+  });
 
-    svr.Post("/test", [](const Request &req, Response &res) {
-            string body = req.body;
-            json postBody = json::parse(body);
+  BookingController booking(svr);
 
-            // =O
-            cout << boolalpha << postBody["jm"].is_null() << endl;
+  auto exceptionHandler =
+      std::bind(&Utils::ExceptionHandler, std::placeholders::_1,
+                std::placeholders::_2, std::placeholders::_3);
 
-            // .template get<T>() es para obtener el valor ya casteado a T
-            if (!postBody["jm"].is_null())  cout << postBody["jm"].template get<string>() << endl;
+  svr.set_exception_handler(exceptionHandler);
 
-            json resp;
-            resp["data"] = "Test con el parser del JSON";
+  svr.listen("0.0.0.0", 3000);
 
-            res.set_content(resp.dump(), "application/json");
-            });
-
-    BookingController booking(svr);
-
-    svr.listen("0.0.0.0", 3000);
-
-    return 0;
+  return 0;
 }

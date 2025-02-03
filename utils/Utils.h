@@ -32,6 +32,25 @@ class Utils {
             res.status = httplib::StatusCode::OK_200;
             Utils::SetContentJSON(res, BuildResponse(data));
         }
+
+        static std::string CleanDate(std::string date) {
+            std::string res;
+            for (auto c: date) if (c != '/') res += c;
+            return res;
+        }
+        
+        static void ExceptionHandler(const httplib::Request &req, httplib::Response &res, std::exception_ptr ep) {
+            std::string exceptionString;
+            try {
+                std::rethrow_exception(ep);
+            } catch (std::exception &e) {
+                exceptionString = e.what();
+            } catch (...) {
+                exceptionString = "Unknown Exception";
+            }
+
+            Utils::BadRequest(res, exceptionString);
+        };
 };
 
 #endif // !UTILS_H

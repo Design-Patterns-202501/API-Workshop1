@@ -14,7 +14,7 @@ sudo docker build -t cpp-server .
 ## Running the container
 
 ```bash
-sudo docker run -d -p 127.0.0.1:3000:3000 cpp-server
+sudo docker run --mount type=bind,src="$(pwd)",target=/app -d -p 127.0.0.1:3000:3000 cpp-server
 ```
 
 ## Stop and delete the container
