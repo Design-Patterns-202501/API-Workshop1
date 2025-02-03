@@ -20,7 +20,8 @@ public:
   BookingController(Server &srv);
 
   void GetBookings(const Request &req, Response &res);
-  void CreateOneBooking(const Request &req, Response &res ,const ContentReader &reader);
+  void CreateOneBooking(const Request &req, Response &res,
+                        const ContentReader &reader);
 };
 
 #endif // BOOKING_CONTROLLER_H

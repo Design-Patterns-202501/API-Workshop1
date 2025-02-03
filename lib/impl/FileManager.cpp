@@ -7,7 +7,8 @@ void FileManager::IterateFiles(std::string folder,
   std::string path = this->CWD + folder;
   bool existDirectory = std::filesystem::is_directory(path);
 
-  if (!existDirectory) return;
+  if (!existDirectory)
+    return;
 
   for (const auto &entry : std::filesystem::directory_iterator(path)) {
     process(entry.path());
@@ -27,18 +28,20 @@ std::string FileManager::DumpText(std::string path) {
   return buffer.str();
 };
 
-bool FileManager::WriteFile(std::string path, std::string content, std::string folder) {
-    
-    std::filesystem::create_directory(this->CWD + folder);
+bool FileManager::WriteFile(std::string path, std::string content,
+                            std::string folder) {
 
-    // std::cout << "[FILE MANAGER] " << path << " " << content << std::endl;
-    ofstream file(path);
+  std::filesystem::create_directory(this->CWD + folder);
 
-    if (!file) return false;
+  // std::cout << "[FILE MANAGER] " << path << " " << content << std::endl;
+  ofstream file(path);
 
-    file << content;
+  if (!file)
+    return false;
 
-    file.close();
+  file << content;
 
-    return true;
+  file.close();
+
+  return true;
 }

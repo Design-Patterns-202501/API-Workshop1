@@ -21,12 +21,12 @@ void BookingController::GetBookings(const Request &req, Response &res) {
 
   paramDate = Utils::CleanDate(paramDate);
 
-  vector<Booking> bookings =
-      service.GetBookingsByDate(paramDate);
+  vector<Booking> bookings = service.GetBookingsByDate(paramDate);
 
   json result = json::array();
 
-  for (auto b: bookings) result.push_back( b.ToJson() );
+  for (auto b : bookings)
+    result.push_back(b.ToJson());
 
   Utils::Ok(res, result);
 };

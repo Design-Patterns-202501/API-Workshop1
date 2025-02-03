@@ -11,7 +11,6 @@
 
 class FileManager {
 public:
-
   std::string CWD = std::filesystem::current_path().string() + "/database/";
 
   FileManager() = default;

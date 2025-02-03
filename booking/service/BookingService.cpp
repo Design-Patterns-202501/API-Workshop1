@@ -13,18 +13,18 @@ vector<Booking> BookingService::GetBookingsByDate(std::string date) {
   return res;
 };
 
-
 string BookingService::CreateBooking(Booking add, bool &good) {
 
-    add.date( Utils::CleanDate( add.date() ) );
-    std::string bookingPath = db.CWD + add.date() + "/" + add.id() + ".json";
-    string rawContent = db.DumpText(bookingPath);
+  add.date(Utils::CleanDate(add.date()));
+  std::string bookingPath = db.CWD + add.date() + "/" + add.id() + ".json";
+  string rawContent = db.DumpText(bookingPath);
 
-    if (rawContent != "") {
-        good = false; return "Booking already exist"; 
-    }
+  if (rawContent != "") {
+    good = false;
+    return "Booking already exist";
+  }
 
-    db.WriteFile(bookingPath, add.ToJson().dump(), add.date());
+  db.WriteFile(bookingPath, add.ToJson().dump(), add.date());
 
-    return "Booking created.";
+  return "Booking created.";
 };
