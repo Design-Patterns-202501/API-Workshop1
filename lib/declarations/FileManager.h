@@ -11,7 +11,7 @@
 
 class FileManager {
 public:
-  std::string CWD = std::filesystem::current_path().string() + "/database/";
+  const static std::string CWD;
 
   FileManager() = default;
 
@@ -21,6 +21,11 @@ public:
   std::string DumpText(std::string path);
 
   bool WriteFile(std::string path, std::string content, std::string folder);
+
+  static void EnsureDatabaseFolder() {
+      std::filesystem::create_directory(CWD);
+  }
+
 };
 
 #endif // !FILE_MANAGER_H

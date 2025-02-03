@@ -1,4 +1,5 @@
 #include "booking/controller/Controller.h"
+#include "lib/declarations/FileManager.h"
 #include "include/httplib.h"
 #include "utils/Utils.h"
 
@@ -13,6 +14,8 @@ using json = nlohmann::json;
 int main() {
 
   Server svr;
+
+  FileManager::EnsureDatabaseFolder();
 
   svr.Get("/ping", [](const Request &req, Response &res) {
     res.set_content("Pong", "text/plain");

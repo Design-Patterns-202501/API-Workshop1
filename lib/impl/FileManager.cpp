@@ -1,5 +1,6 @@
 #include "../declarations/FileManager.h"
-#include <filesystem>
+
+const std::string FileManager::CWD = std::filesystem::current_path().string() + "/database/";
 
 void FileManager::IterateFiles(std::string folder,
                                std::function<void(std::string)> process) {
