@@ -11,10 +11,20 @@ You can execute the server using Docker.
 sudo docker build -t cpp-server .
 ```
 
-## Running the container
+## Running the container with bind mount
+
+Bind mount allows the container write the files into hosts filesystem. **You need Linux platform and the project builded**.
 
 ```bash
 sudo docker run --mount type=bind,src="$(pwd)",target=/app -d -p 127.0.0.1:3000:3000 cpp-server
+```
+
+## Running the container in any platform
+
+It couldn't be possible see the files writed, only using Docker Desktop in Windows.
+
+```bash
+sudo docker run -d -p 127.0.0.1:3000:3000 cpp-server
 ```
 
 ## Stop and delete the container
