@@ -17,6 +17,7 @@ public:
   };
 
   static void SetContentJSON(httplib::Response &res, std::string content) {
+    res.set_header("Access-Control-Allow-Origin", "*");
     res.set_content(content, "application/json");
   }
 

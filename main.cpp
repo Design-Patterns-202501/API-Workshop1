@@ -17,6 +17,20 @@ int main() {
 
   FileManager::EnsureDatabaseFolder();
 
+  svr.Options(R"(\*)", [](const auto& req, auto& res) {
+    res.set_header("Access-Control-Allow-Origin", "*");
+    res.set_header("Allow", "GET, POST, HEAD, OPTIONS");
+    res.set_header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Origin, Authorization");
+    res.set_header("Access-Control-Allow-Methods", "OPTIONS, GET, POST, HEAD");
+  });
+
+  svr.Options("/booking/create", [](const auto& req, auto& res) {
+    res.set_header("Access-Control-Allow-Origin", "*");
+    res.set_header("Allow", "GET, POST, HEAD, OPTIONS");
+    res.set_header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Origin, Authorization");
+    res.set_header("Access-Control-Allow-Methods", "OPTIONS, GET, POST, HEAD");
+  });
+
   svr.Get("/ping", [](const Request &req, Response &res) {
     res.set_content("Pong", "text/plain");
     cout << "Sended..." << endl;
@@ -29,6 +43,7 @@ int main() {
                 std::placeholders::_2, std::placeholders::_3);
 
   svr.set_exception_handler(exceptionHandler);
+
 
   svr.listen("0.0.0.0", 3000);
 
