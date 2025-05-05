@@ -1,6 +1,6 @@
 #include "booking/controller/Controller.h"
-#include "lib/declarations/FileManager.h"
 #include "include/httplib.h"
+#include "include/dotenv-cpp.h"
 #include "utils/Utils.h"
 
 #include <iostream>
@@ -13,10 +13,11 @@ using json = nlohmann::json;
 
 int main() {
 
+  dotenv::init();
+
   Server svr;
 
-  FileManager::EnsureDatabaseFolder();
-
+  // Preflight routes
   svr.Options(R"(\*)", [](const auto& req, auto& res) {
     res.set_header("Access-Control-Allow-Origin", "*");
     res.set_header("Allow", "GET, POST, HEAD, OPTIONS");

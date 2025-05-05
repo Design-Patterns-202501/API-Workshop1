@@ -1,30 +1,19 @@
 #include "BookingService.h"
 
+BookingService::BookingService(): db("barber") {
+};
+
 vector<Booking> BookingService::GetBookingsByDate(std::string date) {
   vector<Booking> res;
+  json query; query.emplace("date", date);
+  auto jsonResults = db.find("bookings", query);
 
-  const function<void(std::string)> callback = [&](std::string path) -> void {
-    json j = json::parse(db.DumpText(path));
-    res.emplace_back(j);
-  };
-
-  db.IterateFiles(date, callback);
-
+  for (json result: jsonResults) res.emplace_back(result);
   return res;
 };
 
 string BookingService::CreateBooking(Booking add, bool &good) {
-
   add.date(Utils::CleanDate(add.date()));
-  std::string bookingPath = db.CWD + add.date() + "/" + add.id() + ".json";
-  string rawContent = db.DumpText(bookingPath);
-
-  if (rawContent != "") {
-    good = false;
-    return "Booking already exist";
-  }
-
-  db.WriteFile(bookingPath, add.ToJson().dump(), add.date());
-
-  return "Booking created.";
+  auto result = db.insert("bookings", add.ToJson());
+  return result;
 };

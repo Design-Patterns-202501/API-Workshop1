@@ -1,7 +1,7 @@
 #ifndef BOOKING_SERVICE_H
 #define BOOKING_SERVICE_H
 
-#include "../../lib/declarations/FileManager.h"
+#include "../../lib/declarations/Mongo.h"
 #include "../../schemas/declarations/Booking.h"
 #include "../../utils/Utils.h"
 #include <iostream>
@@ -10,10 +10,10 @@
 class BookingService {
 
 private:
-  FileManager db;
+  Mongo db;
 
 public:
-  BookingService() = default;
+  BookingService();
 
   /**
    * Mantain the format YYYYMMDD
